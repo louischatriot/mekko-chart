@@ -9,6 +9,7 @@ var y = d3.scale.linear()
     .range([0, height - 2 * margin]);
 
 var z = d3.scale.category10();
+var z2 = ['#fff', '#777', '#0ff', '#fff'];   // TODO: clean this, hack for now, works only with the first colors of z
 
 var n = d3.format(",d"),
     p = d3.format("%");
@@ -19,7 +20,7 @@ var svg = d3.select("svg#mekko")
   .append("g")
     .attr("transform", "translate(" + 2 * margin + "," + margin + ")");
 
-d3.json("data.json", function(error, data) {
+d3.json("data/zola.json", function(error, data) {
   if (error) throw error;
 
   var offset = 0;
@@ -84,14 +85,23 @@ d3.json("data.json", function(error, data) {
   // Add a rect for each market.
   var markets = segments.selectAll(".market")
       .data(function(d) { return d.values; })
-    .enter().append("a")
-      .attr("class", "market")
-      .attr("xlink:title", function(d) { return d.market + " " + d.parent.key + ": " + n(d.value); })
-    .append("rect")
+    .enter().append("g")
+      //.attr("class", "market")
+      //.attr("xlink:title", function(d) { return d.market + " " + d.parent.key + ": " + n(d.value); })
+      ;
+  markets.append("rect")
       .attr("y", function(d) { return y(d.offset / d.parent.sum); })
       .attr("height", function(d) { return y(d.value / d.parent.sum); })
       .attr("width", function(d) { return x(d.parent.sum / sum); })
-      .style("fill", function(d) { return z(d.market); });
+      .style("fill", function(d) { return z(d.market); })
+      ;
+  markets.append("text")
+      .attr("text-anchor", "middle")
+      .style("stroke", d => z2[d.market])
+      .attr("dx", d => x(d.parent.sum / sum) / 2)
+      .attr("y", function(d) { return y(d.offset / d.parent.sum) + y(d.value / d.parent.sum) / 2 + 4; })
+      .text(d => d.value)
+    ;
 });
 
 

@@ -12,6 +12,10 @@ rect {
   stroke: #000;
 }
 
+/*text {*/
+  /*stroke: #000;*/
+/*}*/
+
 svg {
   shape-rendering: crispEdges;
 }
