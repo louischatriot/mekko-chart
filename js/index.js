@@ -9,7 +9,7 @@ var y = d3.scale.linear()
     .range([0, height - 2 * margin]);
 
 var z = d3.scale.category10();
-var z2 = ['#fff', '#777', '#0ff', '#fff'];   // TODO: clean this, hack for now, works only with the first colors of z
+var z2 = ['#fff', '#fff', '#fff', '#fff'];   // TODO: clean this, hack for now, works only with the first colors of z
 
 var n = d3.format(",d"),
     p = d3.format("%");
@@ -97,7 +97,7 @@ d3.json("data/zola.json", function(error, data) {
       ;
   markets.append("text")
       .attr("text-anchor", "middle")
-      .style("stroke", d => z2[d.market])
+      .style("stroke", (d, k) => z2[k])
       .attr("dx", d => x(d.parent.sum / sum) / 2)
       .attr("y", function(d) { return y(d.offset / d.parent.sum) + y(d.value / d.parent.sum) / 2 + 4; })
       .text(d => d.value)
