@@ -100,7 +100,7 @@ d3.json("data/zola.json", function(error, data) {
       .style("stroke", (d, k) => z2[k])
       .attr("dx", d => x(d.parent.sum / sum) / 2)
       .attr("y", function(d) { return y(d.offset / d.parent.sum) + y(d.value / d.parent.sum) / 2 + 4; })
-      .text(d => d.value)
+      .text(d => Math.round(d.value))
     ;
 });
 
